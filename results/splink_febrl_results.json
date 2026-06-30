@@ -1,0 +1,28 @@
+{
+  "record_count": 1000000,
+  "load_time_sec": 1.61,
+  "setup_time_sec": 0.49,
+  "training_time_sec": 7.96,
+  "prediction_time_sec": 0.79,
+  "total_run_time_sec": 9.24,
+  "throughput_records_per_sec": 108225,
+  "accuracy": {
+    "true_positives": 79655,
+    "false_positives": 5,
+    "false_negatives": 20345,
+    "precision": 0.9999,
+    "recall": 0.7965,
+    "f1": 0.8867,
+    "ground_truth_pairs": 100000,
+    "predicted_pairs": 79660
+  },
+  "infrastructure": {
+    "tool": "DuckDB (embedded, no cluster needed)",
+    "install_command": "pip install splink",
+    "lines_of_code_for_working_run": 35,
+    "requires_cluster": false,
+    "requires_account": false,
+    "requires_api_key": false,
+    "estimated_cost_usd": "~$0 (compute only; DuckDB runs locally)"
+  }
+}

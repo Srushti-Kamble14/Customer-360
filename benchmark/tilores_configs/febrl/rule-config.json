@@ -1,0 +1,1089 @@
+{
+  "comparers": [
+    {
+      "id": "c-exact",
+      "type": "exact",
+      "attributes": {}
+    },
+    {
+      "id": "c-phonetic-cologne",
+      "type": "phonetic",
+      "attributes": {
+        "algorithm": "cologne"
+      }
+    },
+    {
+      "id": "c-dob-osa",
+      "type": "similarity",
+      "attributes": {
+        "algorithm": "osaDamerauLevenshtein",
+        "threshold": 0.9,
+        "shingleSize": 4
+      }
+    },
+    {
+      "id": "c-dist1",
+      "type": "distance",
+      "attributes": {
+        "algorithm": "levenshtein",
+        "allowedDistance": 1
+      }
+    }
+  ],
+  "tokenizers": [
+    {
+      "id": "tok-word",
+      "type": "word",
+      "attributes": {}
+    },
+    {
+      "id": "tok-none",
+      "type": "none",
+      "attributes": {}
+    }
+  ],
+  "transformers": [
+    {
+      "id": "t-email-field",
+      "type": "field",
+      "attributes": {
+        "path": "email",
+        "caseSensitive": false,
+        "outputPins": [
+          "default"
+        ]
+      },
+      "inputPins": {
+        "default": null
+      }
+    },
+    {
+      "id": "t-email-filter",
+      "type": "filter",
+      "attributes": {
+        "filterOut": true,
+        "values": [
+          ""
+        ]
+      },
+      "inputPins": {
+        "default": {
+          "sourceID": "t-email-field",
+          "sourcePin": "default"
+        }
+      }
+    },
+    {
+      "id": "t-email-norm",
+      "type": "normalizeemail",
+      "attributes": {
+        "removePlus": true
+      },
+      "inputPins": {
+        "default": {
+          "sourceID": "t-email-filter",
+          "sourcePin": "default"
+        }
+      }
+    },
+    {
+      "id": "t-fn-field",
+      "type": "field",
+      "attributes": {
+        "path": "first_name",
+        "caseSensitive": false,
+        "outputPins": [
+          "default"
+        ]
+      },
+      "inputPins": {
+        "default": null
+      }
+    },
+    {
+      "id": "t-fn-filter",
+      "type": "filter",
+      "attributes": {
+        "filterOut": true,
+        "values": [
+          ""
+        ]
+      },
+      "inputPins": {
+        "default": {
+          "sourceID": "t-fn-field",
+          "sourcePin": "default"
+        }
+      }
+    },
+    {
+      "id": "t-fn-diac",
+      "type": "stringop",
+      "attributes": {
+        "operation": "normalizediacritics",
+        "inputPins": [
+          "default"
+        ]
+      },
+      "inputPins": {
+        "default": {
+          "sourceID": "t-fn-filter",
+          "sourcePin": "default"
+        }
+      }
+    },
+    {
+      "id": "t-fn-spaces",
+      "type": "stringop",
+      "attributes": {
+        "operation": "normalizespaces",
+        "inputPins": [
+          "default"
+        ]
+      },
+      "inputPins": {
+        "default": {
+          "sourceID": "t-fn-diac",
+          "sourcePin": "default"
+        }
+      }
+    },
+    {
+      "id": "t-fn-tok",
+      "type": "tokenize",
+      "attributes": {
+        "tokenizerID": "tok-word"
+      },
+      "inputPins": {
+        "default": {
+          "sourceID": "t-fn-spaces",
+          "sourcePin": "default"
+        }
+      }
+    },
+    {
+      "id": "t-ln-field",
+      "type": "field",
+      "attributes": {
+        "path": "last_name",
+        "caseSensitive": false,
+        "outputPins": [
+          "default"
+        ]
+      },
+      "inputPins": {
+        "default": null
+      }
+    },
+    {
+      "id": "t-ln-filter",
+      "type": "filter",
+      "attributes": {
+        "filterOut": true,
+        "values": [
+          ""
+        ]
+      },
+      "inputPins": {
+        "default": {
+          "sourceID": "t-ln-field",
+          "sourcePin": "default"
+        }
+      }
+    },
+    {
+      "id": "t-ln-diac",
+      "type": "stringop",
+      "attributes": {
+        "operation": "normalizediacritics",
+        "inputPins": [
+          "default"
+        ]
+      },
+      "inputPins": {
+        "default": {
+          "sourceID": "t-ln-filter",
+          "sourcePin": "default"
+        }
+      }
+    },
+    {
+      "id": "t-ln-spaces",
+      "type": "stringop",
+      "attributes": {
+        "operation": "normalizespaces",
+        "inputPins": [
+          "default"
+        ]
+      },
+      "inputPins": {
+        "default": {
+          "sourceID": "t-ln-diac",
+          "sourcePin": "default"
+        }
+      }
+    },
+    {
+      "id": "t-ln-tok",
+      "type": "tokenize",
+      "attributes": {
+        "tokenizerID": "tok-word"
+      },
+      "inputPins": {
+        "default": {
+          "sourceID": "t-ln-spaces",
+          "sourcePin": "default"
+        }
+      }
+    },
+    {
+      "id": "t-dob-field",
+      "type": "field",
+      "attributes": {
+        "path": "date_of_birth",
+        "caseSensitive": false,
+        "outputPins": [
+          "default"
+        ]
+      },
+      "inputPins": {
+        "default": null
+      }
+    },
+    {
+      "id": "t-dob-filter",
+      "type": "filter",
+      "attributes": {
+        "filterOut": true,
+        "values": [
+          "",
+          "1900-01-01",
+          "1970-01-01"
+        ]
+      },
+      "inputPins": {
+        "default": {
+          "sourceID": "t-dob-field",
+          "sourcePin": "default"
+        }
+      }
+    },
+    {
+      "id": "t-dob-makedate",
+      "type": "makedate",
+      "attributes": {
+        "validate": true
+      },
+      "inputPins": {
+        "full": {
+          "sourceID": "t-dob-filter",
+          "sourcePin": "default"
+        },
+        "year": null,
+        "month": null,
+        "day": null
+      }
+    },
+    {
+      "id": "t-city-field",
+      "type": "field",
+      "attributes": {
+        "path": "city",
+        "caseSensitive": false,
+        "outputPins": [
+          "default"
+        ]
+      },
+      "inputPins": {
+        "default": null
+      }
+    },
+    {
+      "id": "t-city-filter",
+      "type": "filter",
+      "attributes": {
+        "filterOut": true,
+        "values": [
+          ""
+        ]
+      },
+      "inputPins": {
+        "default": {
+          "sourceID": "t-city-field",
+          "sourcePin": "default"
+        }
+      }
+    },
+    {
+      "id": "t-city-diac",
+      "type": "stringop",
+      "attributes": {
+        "operation": "normalizediacritics",
+        "inputPins": [
+          "default"
+        ]
+      },
+      "inputPins": {
+        "default": {
+          "sourceID": "t-city-filter",
+          "sourcePin": "default"
+        }
+      }
+    },
+    {
+      "id": "t-city-spaces",
+      "type": "stringop",
+      "attributes": {
+        "operation": "normalizespaces",
+        "inputPins": [
+          "default"
+        ]
+      },
+      "inputPins": {
+        "default": {
+          "sourceID": "t-city-diac",
+          "sourcePin": "default"
+        }
+      }
+    },
+    {
+      "id": "t-city-removespaces",
+      "type": "stringop",
+      "attributes": {
+        "operation": "removespaces",
+        "inputPins": [
+          "default"
+        ]
+      },
+      "inputPins": {
+        "default": {
+          "sourceID": "t-city-spaces",
+          "sourcePin": "default"
+        }
+      }
+    },
+    {
+      "id": "t-postcode-field",
+      "type": "field",
+      "attributes": {
+        "path": "postcode",
+        "caseSensitive": false,
+        "outputPins": [
+          "default"
+        ]
+      },
+      "inputPins": {
+        "default": null
+      }
+    },
+    {
+      "id": "t-postcode-filter",
+      "type": "filter",
+      "attributes": {
+        "filterOut": true,
+        "values": [
+          ""
+        ]
+      },
+      "inputPins": {
+        "default": {
+          "sourceID": "t-postcode-field",
+          "sourcePin": "default"
+        }
+      }
+    },
+    {
+      "id": "t-postcode-removespaces",
+      "type": "stringop",
+      "attributes": {
+        "operation": "removespaces",
+        "inputPins": [
+          "default"
+        ]
+      },
+      "inputPins": {
+        "default": {
+          "sourceID": "t-postcode-filter",
+          "sourcePin": "default"
+        }
+      }
+    },
+    {
+      "id": "t-phone-field",
+      "type": "field",
+      "attributes": {
+        "path": "phone",
+        "caseSensitive": false,
+        "outputPins": [
+          "default"
+        ]
+      },
+      "inputPins": {
+        "default": null
+      }
+    },
+    {
+      "id": "t-phone-sentinel-filter",
+      "type": "filter",
+      "attributes": {
+        "filterOut": true,
+        "values": [
+          "+44(0)20 7496 0",
+          "+44(0)117 496 0",
+          "+44(0)121 496 0",
+          "+44(0)1632 960",
+          "+44(0)115 496 0",
+          "+44(0)118 496 0",
+          "+44(0)29 2018 0",
+          "+44(0)141 496 0",
+          "+44(0)191 496 0",
+          "+44(0)306 999 0",
+          "+44(0)113 496 0",
+          "+44(0)116 496 0",
+          "+44(0)114 496 0",
+          "+44(0)151 496 0",
+          "+44(0)161 496 0",
+          "+44(0)131 496 0",
+          "+44(0)808 157 0",
+          "+44(0)909 879 0",
+          "+44(0)1632 960 ",
+          "+44(0)20 7496 0"
+        ]
+      },
+      "inputPins": {
+        "default": {
+          "sourceID": "t-phone-field",
+          "sourcePin": "default"
+        }
+      }
+    },
+    {
+      "id": "t-phone-empty-filter",
+      "type": "filter",
+      "attributes": {
+        "filterOut": true,
+        "values": [
+          ""
+        ]
+      },
+      "inputPins": {
+        "default": {
+          "sourceID": "t-phone-sentinel-filter",
+          "sourcePin": "default"
+        }
+      }
+    },
+    {
+      "id": "t-phone-norm",
+      "type": "normalizephonenumber",
+      "attributes": {},
+      "inputPins": {
+        "number": {
+          "sourceID": "t-phone-empty-filter",
+          "sourcePin": "default"
+        },
+        "country": null
+      }
+    },
+    {
+      "id": "t-phone-e164-trash",
+      "type": "filter",
+      "attributes": {
+        "filterOut": true,
+        "values": [
+          "+442074960",
+          "+441174960",
+          "+441214960",
+          "+441632960",
+          "+441154960",
+          "+441184960",
+          "+442920180",
+          "+441914960",
+          "+441414960",
+          "+449098790",
+          "+443069990",
+          "+441514960",
+          "+448081570",
+          "+441314960",
+          "+442890180",
+          "+441134960",
+          "+441144960",
+          "+441614960",
+          "+441164960",
+          "+44011349600",
+          "+44020749602",
+          "+44011849609",
+          "+44080815700",
+          "+44011749606",
+          "+44080815708",
+          "+44011449605",
+          "+44019149604",
+          "+44011549609",
+          "+44015149602",
+          "+44011449601",
+          "+44013149608",
+          "+44030699908",
+          "+44011549605",
+          "+44016149602",
+          "+44080815709",
+          "+44090987903",
+          "+44011649601",
+          "+44011749604",
+          "+44011849604",
+          "+44011849608",
+          "+44019149609",
+          "+44080815701",
+          "+44011449602",
+          "+44011449604",
+          "+44011549603",
+          "+44013149606",
+          "+44014149604",
+          "+44011349608",
+          "+44011449608",
+          "+44011749607",
+          "+44011749608",
+          "+44011849600",
+          "+44012149607",
+          "+44013149605",
+          "+44020749606",
+          "+44011549602",
+          "+44011649603",
+          "+44011649605",
+          "+44012149601",
+          "+44016149604",
+          "+44016149609",
+          "+44016329602",
+          "+44016329606",
+          "+44011449607",
+          "+44011549606",
+          "+44011749602",
+          "+44012149600",
+          "+44014149605",
+          "+44015149608",
+          "+44016149601",
+          "+44016329604",
+          "+44090987906",
+          "+44090987909",
+          "+44012149608",
+          "+44013149601",
+          "+44013149602",
+          "+44014149602",
+          "+44016149603",
+          "+44030699901",
+          "+44030699902",
+          "+44080815704",
+          "+44011649600",
+          "+44013149607",
+          "+44015149603",
+          "+44016149608",
+          "+44016329600",
+          "+44016329607",
+          "+44020749603",
+          "+44020749607",
+          "+44080815706",
+          "+44080815707",
+          "+44011649606",
+          "+44011749609",
+          "+44012149604",
+          "+44012149605",
+          "+44014149603",
+          "+44016329609",
+          "+44019149601",
+          "+44019149606",
+          "+44020749600",
+          "+44020749609",
+          "+44030699903",
+          "+44030699907",
+          "+44080815703",
+          "+44090987902",
+          "+44011649607",
+          "+44011649609",
+          "+44011749600",
+          "+44011749603",
+          "+44011849602",
+          "+44011849603",
+          "+44015149605",
+          "+44016329601",
+          "+44019149605",
+          "+44020749601",
+          "+44030699905",
+          "+44080815702",
+          "+44011549600",
+          "+44012149602",
+          "+44014149600",
+          "+44015149607",
+          "+44016329603",
+          "+44016329608",
+          "+44030699906",
+          "+44080815705",
+          "+44090987904",
+          "+44011849605",
+          "+44011849606",
+          "+44013149604",
+          "+44011349605",
+          "+44011349606",
+          "+44011449603",
+          "+44014149607",
+          "+44014149608",
+          "+44016149607",
+          "+44030699904",
+          "+44011349609",
+          "+44011649608",
+          "+44011849601",
+          "+44014149601",
+          "+44015149609",
+          "+44016329605",
+          "+44020749604",
+          "+44011349602",
+          "+44011549604",
+          "+44011549607",
+          "+44012149603",
+          "+44012149606",
+          "+44012149609",
+          "+44013149600",
+          "+44014149609",
+          "+44015149600",
+          "+44019149603",
+          "+44020749608",
+          "+44030699909",
+          "+44011449606",
+          "+44011549601",
+          "+44011649602",
+          "+44011649604",
+          "+44019149607",
+          "+44090987907",
+          "+44011349607",
+          "+44011549608",
+          "+44019149602",
+          "+44020749605",
+          "+44090987908",
+          "+44011349601",
+          "+44090987900",
+          "+44090987901",
+          "+44011349604",
+          "+44011749601",
+          "+44011749605",
+          "+44013149603",
+          "+44019149600",
+          "+44090987905",
+          "+44011449609",
+          "+44014149606",
+          "+44011349603",
+          "+44011449600",
+          "+44013149609",
+          "+44016149606",
+          "+44016149605",
+          "+44019149608",
+          "+44011849607",
+          "+44015149604",
+          "+44015149606",
+          "+44016149600",
+          "+44015149601",
+          "+44030699900",
+          "+440114960",
+          "+44118496002",
+          "+44116496017",
+          "+44121496059",
+          "+44808157047",
+          "+44141496056",
+          "+44029201843",
+          "+44113496027",
+          "+44113496089",
+          "+44116496031",
+          "+44121496078"
+        ]
+      },
+      "inputPins": {
+        "default": {
+          "sourceID": "t-phone-norm",
+          "sourcePin": "e164"
+        }
+      }
+    }
+  ],
+  "resolvers": [
+    {
+      "id": "r-email",
+      "inputPin": {
+        "sourceID": "t-email-norm",
+        "sourcePin": "email"
+      },
+      "attributes": {}
+    },
+    {
+      "id": "r-fn",
+      "inputPin": {
+        "sourceID": "t-fn-tok",
+        "sourcePin": "default"
+      },
+      "attributes": {}
+    },
+    {
+      "id": "r-ln",
+      "inputPin": {
+        "sourceID": "t-ln-tok",
+        "sourcePin": "default"
+      },
+      "attributes": {}
+    },
+    {
+      "id": "r-dob",
+      "inputPin": {
+        "sourceID": "t-dob-makedate",
+        "sourcePin": "full"
+      },
+      "attributes": {}
+    },
+    {
+      "id": "r-city",
+      "inputPin": {
+        "sourceID": "t-city-removespaces",
+        "sourcePin": "default"
+      },
+      "attributes": {}
+    },
+    {
+      "id": "r-postcode",
+      "inputPin": {
+        "sourceID": "t-postcode-removespaces",
+        "sourcePin": "default"
+      },
+      "attributes": {}
+    },
+    {
+      "id": "r-phone",
+      "inputPin": {
+        "sourceID": "t-phone-e164-trash",
+        "sourcePin": "default"
+      },
+      "attributes": {}
+    }
+  ],
+  "matchers": [
+    {
+      "id": "m-email",
+      "type": "simple",
+      "attributes": {
+        "resolverID": "r-email",
+        "mustExist": true
+      }
+    },
+    {
+      "id": "m-fn-exact",
+      "type": "token",
+      "attributes": {
+        "resolverID": "r-fn",
+        "tokenizerID": "tok-word",
+        "comparerID": "c-phonetic-cologne",
+        "strategy": "minimum",
+        "min": 1,
+        "mustExist": true,
+        "indexStrategy": "combinations",
+        "indexTokens": 1
+      }
+    },
+    {
+      "id": "m-ln-exact",
+      "type": "token",
+      "attributes": {
+        "resolverID": "r-ln",
+        "tokenizerID": "tok-word",
+        "comparerID": "c-exact",
+        "strategy": "minimum",
+        "min": 1,
+        "mustExist": true,
+        "indexStrategy": "combinations",
+        "indexTokens": 1
+      }
+    },
+    {
+      "id": "m-dob-exact",
+      "type": "simple",
+      "attributes": {
+        "resolverID": "r-dob",
+        "mustExist": true
+      }
+    },
+    {
+      "id": "m-dob-fuzzy",
+      "type": "token",
+      "attributes": {
+        "resolverID": "r-dob",
+        "tokenizerID": "tok-none",
+        "comparerID": "c-dob-osa",
+        "strategy": "minimum",
+        "min": 1,
+        "mustExist": true
+      }
+    },
+    {
+      "id": "m-city",
+      "type": "simple",
+      "attributes": {
+        "resolverID": "r-city",
+        "mustExist": true
+      }
+    },
+    {
+      "id": "m-postcode",
+      "type": "simple",
+      "attributes": {
+        "resolverID": "r-postcode",
+        "mustExist": true
+      }
+    },
+    {
+      "id": "m-fn-exactstr",
+      "type": "token",
+      "attributes": {
+        "resolverID": "r-fn",
+        "tokenizerID": "tok-word",
+        "comparerID": "c-exact",
+        "strategy": "minimum",
+        "min": 1,
+        "mustExist": true
+      }
+    },
+    {
+      "id": "m-ln-fuzzy",
+      "type": "token",
+      "attributes": {
+        "resolverID": "r-ln",
+        "tokenizerID": "tok-word",
+        "comparerID": "c-dist1",
+        "strategy": "minimum",
+        "min": 1,
+        "mustExist": true
+      }
+    },
+    {
+      "id": "m-fn-fuzzy",
+      "type": "token",
+      "attributes": {
+        "resolverID": "r-fn",
+        "tokenizerID": "tok-word",
+        "comparerID": "c-dist1",
+        "strategy": "minimum",
+        "min": 1,
+        "mustExist": true
+      }
+    },
+    {
+      "id": "m-city-ne",
+      "type": "simple",
+      "attributes": {
+        "resolverID": "r-city",
+        "mustExist": false
+      }
+    },
+    {
+      "id": "m-city-oe",
+      "type": "orempty",
+      "attributes": {
+        "matcherID": "m-city-ne"
+      }
+    },
+    {
+      "id": "m-dob-osa-ne",
+      "type": "token",
+      "attributes": {
+        "resolverID": "r-dob",
+        "tokenizerID": "tok-none",
+        "comparerID": "c-dob-osa",
+        "strategy": "minimum",
+        "min": 1,
+        "mustExist": false
+      }
+    },
+    {
+      "id": "m-dob-oe",
+      "type": "orempty",
+      "attributes": {
+        "matcherID": "m-dob-osa-ne"
+      }
+    }
+  ],
+  "rules": [
+    {
+      "id": "R-EMAIL",
+      "matcherIDs": [
+        "m-email",
+        "m-city"
+      ],
+      "attributes": {
+        "ignoreErrors": true
+      }
+    },
+    {
+      "id": "R-FN-LN-DOB-CITY",
+      "matcherIDs": [
+        "m-fn-exactstr",
+        "m-ln-exact",
+        "m-dob-exact",
+        "m-city"
+      ],
+      "attributes": {
+        "ignoreErrors": true,
+        "disableIndexMatcherIDs": [
+          "m-city"
+        ]
+      }
+    },
+    {
+      "id": "R-FN-LN-DOB-POSTCODE",
+      "matcherIDs": [
+        "m-fn-exactstr",
+        "m-ln-exact",
+        "m-dob-exact",
+        "m-postcode"
+      ],
+      "attributes": {
+        "ignoreErrors": true,
+        "disableIndexMatcherIDs": [
+          "m-postcode"
+        ]
+      }
+    },
+    {
+      "id": "R-FN-LN-DOB-FUZZY",
+      "matcherIDs": [
+        "m-fn-exactstr",
+        "m-ln-exact",
+        "m-dob-fuzzy",
+        "m-city"
+      ],
+      "attributes": {
+        "ignoreErrors": true,
+        "disableIndexMatcherIDs": [
+          "m-dob-fuzzy",
+          "m-city"
+        ]
+      }
+    },
+    {
+      "id": "R-DEDUP-EMAIL",
+      "matcherIDs": [
+        "m-email",
+        "m-city"
+      ],
+      "attributes": {
+        "ignoreErrors": true
+      }
+    },
+    {
+      "id": "R-LN-FUZZY",
+      "matcherIDs": [
+        "m-fn-exactstr",
+        "m-ln-fuzzy",
+        "m-dob-exact",
+        "m-city"
+      ],
+      "attributes": {
+        "ignoreErrors": true,
+        "disableIndexMatcherIDs": [
+          "m-ln-fuzzy",
+          "m-city"
+        ]
+      }
+    },
+    {
+      "id": "R-FN-FUZZY",
+      "matcherIDs": [
+        "m-fn-fuzzy",
+        "m-ln-exact",
+        "m-dob-exact",
+        "m-city"
+      ],
+      "attributes": {
+        "ignoreErrors": true,
+        "disableIndexMatcherIDs": [
+          "m-fn-fuzzy",
+          "m-city"
+        ]
+      }
+    },
+    {
+      "id": "R-CONSISTENCY",
+      "matcherIDs": [
+        "m-city-oe"
+      ],
+      "attributes": {
+        "ignoreErrors": true
+      }
+    }
+  ],
+  "ruleSets": [
+    {
+      "id": "rs-main",
+      "ruleIDs": [
+        "R-EMAIL",
+        "R-FN-LN-DOB-CITY",
+        "R-FN-LN-DOB-POSTCODE",
+        "R-FN-LN-DOB-FUZZY",
+        "R-LN-FUZZY",
+        "R-FN-FUZZY"
+      ]
+    },
+    {
+      "id": "rs-dedup",
+      "ruleIDs": [
+        "R-DEDUP-EMAIL"
+      ]
+    },
+    {
+      "id": "rs-index",
+      "ruleIDs": [
+        "R-EMAIL",
+        "R-FN-LN-DOB-CITY",
+        "R-FN-LN-DOB-POSTCODE",
+        "R-FN-LN-DOB-FUZZY",
+        "R-DEDUP-EMAIL",
+        "R-LN-FUZZY",
+        "R-FN-FUZZY"
+      ]
+    },
+    {
+      "id": "rs-consistency",
+      "ruleIDs": [
+        "R-CONSISTENCY"
+      ]
+    }
+  ],
+  "searchRuleSetIDs": {
+    "default": "rs-main"
+  },
+  "mutationRuleSetGroups": {
+    "default": {
+      "indexRuleSetID": "rs-index",
+      "linkRuleSetID": "rs-main",
+      "deduplicateRuleSetID": "rs-dedup"
+    }
+  },
+  "scores": {
+    "consistency": [
+      {
+        "resolverID": "r-email",
+        "weight": 1.0,
+        "type": "text"
+      },
+      {
+        "resolverID": "r-dob",
+        "weight": 0.9,
+        "type": "date"
+      },
+      {
+        "resolverID": "r-city",
+        "weight": 0.7,
+        "type": "text"
+      },
+      {
+        "resolverID": "r-postcode",
+        "weight": 0.6,
+        "type": "text"
+      }
+    ]
+  },
+  "consistencyRuleSetIDs": {
+    "default": "rs-consistency"
+  }
+}

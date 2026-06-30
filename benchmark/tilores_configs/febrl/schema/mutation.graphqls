@@ -1,0 +1,9 @@
+# Submit-Mutation für batch-graphql Ingest.
+# Wrap each JSONL record with `jq -c '{record: .}'` before piping into batch-graphql
+# (siehe Tilores Local Testing Reference §6.2).
+
+mutation M($record: RecordInput!) {
+  submit(input: { records: [$record] }) {
+    recordsAdded
+  }
+}

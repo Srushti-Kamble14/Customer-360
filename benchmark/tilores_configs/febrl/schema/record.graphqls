@@ -1,0 +1,53 @@
+# Tilores FEBRL Schema — Splink Benchmark
+# Person records (en_GB), 1M synthetic + ~100K duplicates with corruption.
+# Normalized fields are written by the rule-config ETM pipeline.
+
+input RecordInput {
+  id: ID!
+
+  first_name:     String
+  last_name:      String
+  date_of_birth:  String       # ISO YYYY-MM-DD
+  street_address: String
+  city:           String
+  postcode:       String       # UK format e.g. "E3 8ZA"
+  phone:          String       # UK formats vary heavily
+  email:          String
+
+  normalized:     NormalizedInput
+}
+
+input NormalizedInput {
+  email:          String       # lowercase, plus-sign stripped
+  phone:          String       # E.164
+  first_name:     String       # Title Case, Umlaut-aware
+  last_name:      String
+  postcode:       String       # alphanumeric, no spaces, uppercase
+  city:           String
+  street_address: String
+}
+
+type Record {
+  id: ID!
+
+  first_name:     String
+  last_name:      String
+  date_of_birth:  String
+  street_address: String
+  city:           String
+  postcode:       String
+  phone:          String
+  email:          String
+
+  normalized:     Normalized
+}
+
+type Normalized {
+  email:          String
+  phone:          String
+  first_name:     String
+  last_name:      String
+  postcode:       String
+  city:           String
+  street_address: String
+}

@@ -1,0 +1,12 @@
+# Tilores FEBRL Search Parameters
+# Drives the search API for ground-truth-pair lookups in the benchmark.
+
+input SearchParams {
+  id:             ID
+  first_name:     String
+  last_name:      String
+  date_of_birth:  String
+  postcode:       String
+  phone:          String
+  email:          String
+}

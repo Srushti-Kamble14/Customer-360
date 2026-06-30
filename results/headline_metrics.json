@@ -1,0 +1,47 @@
+{
+  "benchmark": "Splink vs Tilores",
+  "dataset": "FEBRL-style synthetic, 1,000,000 records (en_GB, Faker)",
+  "ground_truth_pairs": 100000,
+  "evaluation": "all 100,000 ground-truth pairs (apples-to-apples)",
+  "date": "2026-06-03",
+  "tilores_run": "LAN network, sequential ingest",
+  "splink": {
+    "tool": "Splink (DuckDB batch)",
+    "f1": 0.8867,
+    "precision": 0.9999,
+    "recall": 0.7965,
+    "true_positives": 79655,
+    "false_positives": 5,
+    "false_negatives": 20345,
+    "predicted_pairs": 79660,
+    "search_latency_p95_ms": null,
+    "real_time_api": false,
+    "incremental_ingest": false,
+    "persistent_index": false,
+    "hardware": "DuckDB embedded (laptop class)"
+  },
+  "tilores": {
+    "tool": "Tilores (32GB local LXC)",
+    "f1": 0.9949,
+    "precision": 0.9998,
+    "recall": 0.99,
+    "true_positives": 99000,
+    "false_positives": 15,
+    "false_negatives": 1000,
+    "search_latency_avg_ms": 8.4,
+    "search_latency_p95_ms": 8.6,
+    "real_time_api": true,
+    "incremental_ingest": true,
+    "persistent_index": true,
+    "hardware": "32GB LXC, 16 cores"
+  },
+  "deltas": {
+    "f1_pp": 10.82,
+    "precision_pp": -0.01,
+    "recall_pp": 19.35,
+    "true_positives_diff": 19345,
+    "false_positives_diff": 10,
+    "false_negatives_diff": -19345
+  },
+  "headline": "Tilores beats Splink on recall (+19.4pp) and F1 (+10.8pp), with F1 0.9949 vs 0.8867, on identical 1M-record dataset and 100k ground-truth evaluation, while additionally providing real-time GraphQL API (8.6ms p95), incremental ingestion, and a persistent searchable entity index \u2014 capabilities Splink does not have at all."
+}

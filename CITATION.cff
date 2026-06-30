@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+title: "Splink vs. Tilores — Reproducible Entity Resolution Benchmark"
+message: "If you use this benchmark, please cite it as below."
+type: dataset
+authors:
+  - given-names: Hendrik
+    family-names: Nehnes
+    affiliation: "Tilo Tech GmbH"
+    email: hello@tilores.io
+repository-code: "https://github.com/tilotech/tilores-splink-benchmark"
+url: "https://tilores.io"
+abstract: >-
+  A reproducible head-to-head benchmark comparing Splink (open-source
+  entity resolution by the UK Ministry of Justice) and Tilores
+  (commercial entity resolution API by Tilo Tech GmbH) on 1,000,000
+  synthetic FEBRL records with 100,000 known ground-truth duplicate
+  pairs. Reports precision, recall, F1, batch throughput, and real-time
+  search latency.
+keywords:
+  - entity resolution
+  - record linkage
+  - deduplication
+  - benchmark
+  - splink
+  - tilores
+  - FEBRL
+license: Apache-2.0
+version: "1.0.0"
+date-released: "2026-06-03"
