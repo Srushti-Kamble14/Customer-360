@@ -19,9 +19,9 @@ Entity resolution — finding records that refer to the same real-world entity �
 | **F1 Score** | 0.8867 | **0.9949** | **+10.8pp** |
 | Precision | 0.9999 | **0.9998** | ~tie |
 | **Recall** | 0.7965 | **0.9900** | **+19.4pp** |
-| True positives (of 100K) | 79,655 | **99,000** | |
-| False positives | 5 | 15 | |
-| False negatives | 20,345 | **1,000** | |
+| True positives (of 100K) | 79,655 | **99,000** | +19,345 |
+| False positives | **5** | 15 | +10 (3× more — Splink wins) |
+| False negatives | 20,345 | **1,000** | −19,345 |
 
 Dataset: 1,000,000 synthetic FEBRL records (en_GB, seed 42) with 100,000 known ground-truth duplicate pairs. Snapshot: 2026-06-03.
 
