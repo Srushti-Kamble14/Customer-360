@@ -34,8 +34,8 @@ PASSWORD = os.getenv("SUPABASE_PASSWORD")
 encoded_password = quote(PASSWORD, safe="")
 
 DATABASE_URL = (
-    f"postgresql://postgres:{encoded_password}"
-    "@db.xgejqqytmwnkrwrxnzxl.supabase.co:5432/postgres"
+      f"postgresql://postgres.xgejqqytmwnkrwrxnzxl:{encoded_password}"
+    "@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres"
 )
 
 REDIS_HOST = os.getenv("REDIS_HOST")
