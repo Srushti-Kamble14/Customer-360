@@ -1,36 +1,29 @@
 # Python
 __pycache__/
-*.py[cod]
-*.pyo
+*.pyc
 .venv/
 venv/
-env/
-*.egg-info/
-dist/
-build/
-.pytest_cache/
-.mypy_cache/
 
-# Large generated data files — regenerate via scripts
-benchmark/data/records.csv
-benchmark/data/records.jsonl
-benchmark/data/ground_truth.csv
-
-# Auto-generated raw report (curated summary lives in RESULTS.md)
-benchmark/benchmark_results.md
-
-# Tilores internal files
-benchmark/data/_batch_graphql_config.json
-benchmark/data/_ingest_result.jsonl
-benchmark/data/_ingest_errors.jsonl
-
-# Credentials
+# Environment / secrets
 .env
+.env.*
+!.env.example
 
-# macOS
+# Node
+node_modules/
+.next/
+out/
+
+# Generated datasets
+benchmark/data/*.csv
+
+# Python generated files
+*.pkl
+*.joblib
+
+# Logs
+*.log
+
+# OS
 .DS_Store
-
-# Editor
-.idea/
-.vscode/
-*.swp
+Thumbs.db
