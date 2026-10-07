@@ -16,12 +16,12 @@ export default function Home() {
     setError("");
     setCustomer(null);
 
+    const API_URL =process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
+
     try {
-      const response = await fetch(
-        `http://127.0.0.1:8000/customers/search?email=${encodeURIComponent(
-          search
-        )}`
-      );
+  const response = await fetch(
+    `${API_URL}/customers/search?email=${encodeURIComponent(search)}`
+  );
 
       const data = await response.json();
 
